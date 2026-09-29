@@ -1,0 +1,518 @@
+/* ================================================================ assistente de estoque */
+
+.tile-ai .tile-icon {
+  background: var(--accent-subtle);
+  color: var(--accent);
+}
+
+.tile h3 .pill {
+  height: 18px;
+  margin-left: 6px;
+  font-size: 10.5px;
+  vertical-align: 2px;
+}
+
+.assistant-view {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  background: var(--bg-subtle);
+}
+
+.assistant-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 56px;
+  padding: 0 16px;
+  flex: none;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.assistant-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.assistant-title svg {
+  color: var(--accent);
+}
+
+.assistant-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.assistant-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 28px 20px 32px;
+}
+
+.assistant-intro {
+  padding: 40px 0 8px;
+}
+
+.intro-mark {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--accent-subtle);
+  color: var(--accent);
+}
+
+.assistant-intro h1 {
+  margin: 18px 0 8px;
+  font-size: 26px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+.assistant-intro > p {
+  max-width: 620px;
+  margin: 0;
+  font-size: 15px;
+  color: var(--fg-muted);
+}
+
+.intro-caps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.intro-caps > div {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  font-size: 12.5px;
+  color: var(--fg-muted);
+}
+
+.intro-caps svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--fg);
+}
+
+.intro-caps strong {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.intro-examples {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.example {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  text-align: left;
+  font-size: 13px;
+  color: var(--fg-muted);
+  cursor: pointer;
+  transition: border-color 0.12s, color 0.12s;
+}
+
+.example:hover {
+  border-color: var(--fg-subtle);
+  color: var(--fg);
+}
+
+@media (max-width: 640px) {
+  .intro-caps {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* mensagens */
+
+.msg {
+  display: flex;
+  gap: 12px;
+  animation: expand 0.18s ease-out;
+}
+
+.msg.user {
+  justify-content: flex-end;
+}
+
+.bubble {
+  max-width: 82%;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px 14px 4px 14px;
+  background: var(--bg);
+  font-size: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.bubble-text {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.bubble-files {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.bubble-files:last-child {
+  margin-bottom: 0;
+}
+
+.assistant-avatar {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex: none;
+  border-radius: 8px;
+  background: var(--primary-bg);
+  color: var(--primary-fg);
+}
+
+.assistant-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+  padding-top: 3px;
+}
+
+.rich {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.rich p,
+.rich ul,
+.rich ol,
+.rich h4 {
+  margin: 0 0 10px;
+}
+
+.rich > :last-child {
+  margin-bottom: 0;
+}
+
+.rich ul,
+.rich ol {
+  padding-left: 20px;
+}
+
+.rich li + li {
+  margin-top: 3px;
+}
+
+.rich h4 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.rich code,
+.notice code {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--bg-muted);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+}
+
+.tool-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  max-width: 100%;
+  padding: 5px 10px;
+  border: 1px solid var(--border-muted);
+  border-radius: 999px;
+  background: var(--bg);
+  font-size: 12.5px;
+  color: var(--fg-muted);
+}
+
+.tool-row svg {
+  color: var(--success);
+  flex: none;
+}
+
+.tool-row.failed svg {
+  color: var(--attention);
+}
+
+.tool-label {
+  color: var(--fg);
+  font-weight: 500;
+}
+
+.tool-status {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tool-status::before {
+  content: '·';
+  margin-right: 8px;
+}
+
+.spinner {
+  width: 12px;
+  height: 12px;
+  flex: none;
+  border: 1.5px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.chat-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  background: var(--danger-subtle);
+  color: var(--danger);
+  font-size: 13px;
+}
+
+.remessa-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.remessa-card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+}
+
+.remessa-card-title {
+  font-weight: 600;
+}
+
+.remessa-card-file {
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.remessa-card-resumo {
+  margin: 0;
+  padding: 0 16px 12px;
+  font-size: 13px;
+  color: var(--fg-muted);
+}
+
+.remessa-card-stats {
+  display: flex;
+  gap: 28px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border-muted);
+  background: var(--bg-subtle);
+}
+
+.remessa-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--border-muted);
+}
+
+/* composer */
+
+.composer-wrap {
+  flex: none;
+  padding: 0 20px 14px;
+}
+
+.composer {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 10px 10px 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--bg);
+  box-shadow: var(--shadow-md);
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+
+.composer:focus-within {
+  border-color: var(--fg-subtle);
+}
+
+.composer textarea {
+  display: block;
+  width: 100%;
+  min-height: 24px;
+  max-height: 220px;
+  padding: 4px 0;
+  border: 0;
+  outline: none;
+  resize: none;
+  background: transparent;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.composer textarea::placeholder {
+  color: var(--fg-subtle);
+}
+
+.composer-files {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.file-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 260px;
+  height: 26px;
+  padding: 0 4px 0 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-subtle);
+  font-size: 12px;
+}
+
+.file-chip.static {
+  padding-right: 8px;
+}
+
+.file-chip svg {
+  flex: none;
+  color: var(--fg-muted);
+}
+
+.file-chip .fname {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.file-chip .fsize {
+  flex: none;
+  color: var(--fg-subtle);
+}
+
+.file-chip button {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: var(--fg-muted);
+  cursor: pointer;
+}
+
+.file-chip button:hover {
+  background: var(--btn-hover);
+  color: var(--fg);
+}
+
+.composer-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.composer-hint {
+  font-size: 11.5px;
+}
+
+.send-btn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--primary-bg);
+  color: var(--primary-fg);
+  cursor: pointer;
+  transition: opacity 0.12s, background 0.12s;
+}
+
+.send-btn:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.send-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.composer-note {
+  max-width: 780px;
+  margin: 8px auto 0;
+  text-align: center;
+  font-size: 11.5px;
+  color: var(--fg-subtle);
+}
+
+.assistant-drop {
+  position: absolute;
+  inset: 56px 0 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 12px;
+  border: 1.5px dashed var(--accent);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 500;
+  pointer-events: none;
+}

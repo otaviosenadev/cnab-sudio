@@ -11,6 +11,34 @@ npm test         # testes do núcleo (layouts, round-trip, detecção)
 npm run build
 ```
 
+## Assistente de estoque (IA)
+
+Módulo que recebe o estoque de títulos de um fundo em qualquer formato (Excel/CSV, prints, PDF, texto colado), organiza os dados, pergunta o que falta e entrega a remessa pronta para revisar no editor.
+
+```
+navegador ──SSE──▶ server/ (Fastify) ──▶ API da Anthropic (Claude)
+                      │
+                      └─ ferramentas executadas no servidor, com o mesmo núcleo CNAB do editor:
+                         validar_rascunho · atualizar_rascunho · entregar_remessa
+```
+
+- A IA só extrai e organiza os dados num rascunho semântico (`src/cnab/draft.ts`); quem monta o arquivo posicional é o motor do editor. Por isso a remessa gerada é sempre estruturalmente válida.
+- O prompt de sistema (`server/src/prompt.ts`) inclui um catálogo gerado das especificações (`src/cnab/catalog.ts`): mudar um layout atualiza o que a IA conhece.
+- Planilhas são convertidas em CSV no servidor. Imagens grandes são reduzidas no navegador antes do envio.
+
+### Rodando o backend
+
+```bash
+cd server
+npm install
+cp .env.example .env      # preencha ANTHROPIC_API_KEY
+npm run dev               # http://127.0.0.1:8787 (o Vite faz proxy de /api)
+```
+
+Sem chave, dá para ver a interface funcionando com `ASSISTANT_MOCK=1 npm run dev`, que simula uma conversa usando as ferramentas reais.
+
+Em produção, defina `ACCESS_CODE` no `.env` para que só quem tiver o código use o assistente (e gaste créditos da sua chave). Há também limite de requisições por IP (`RATE_LIMIT_MAX`). Arquivos de deploy em [`deploy/`](deploy/): configuração do nginx com proxy de `/api` e o serviço systemd `cnabstudio-api.service`.
+
 ## Layouts suportados
 
 | Layout | Registros |

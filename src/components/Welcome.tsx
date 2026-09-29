@@ -4,10 +4,12 @@ import { groupTitulos } from '../cnab/records';
 import { clearDraft, loadDraft, useShell } from '../state/editor';
 import { useActions } from './actions';
 import { Icon } from './Icon';
+import { useAssistant } from '../assistant/state';
 
 export function Welcome() {
   const actions = useActions();
   const { load } = useShell();
+  const assistant = useAssistant();
   const [over, setOver] = useState(false);
   const [draft, setDraft] = useState(loadDraft);
 
@@ -52,6 +54,15 @@ export function Welcome() {
             </span>
             <h3>Criar do zero</h3>
             <p>Escolha o layout e o tipo de operação — aquisição, baixa, recompra ou instruções.</p>
+          </button>
+          <button type="button" className="tile tile-ai" onClick={() => assistant.setOpen(true)}>
+            <span className="tile-icon">
+              <Icon name="sparkle" size={20} />
+            </span>
+            <h3>
+              Montar com IA <span className="pill accent">novo</span>
+            </h3>
+            <p>Envie o estoque do fundo em planilha, print ou PDF. A IA organiza, pergunta o que falta e gera o arquivo.</p>
           </button>
         </div>
 

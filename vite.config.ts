@@ -3,4 +3,8 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    // Backend do assistente (server/) em desenvolvimento.
+    proxy: { '/api': 'http://127.0.0.1:8787' },
+  },
 });

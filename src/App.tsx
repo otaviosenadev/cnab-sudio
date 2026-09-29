@@ -13,6 +13,8 @@ import { Welcome } from './components/Welcome';
 import { NewFileDialog } from './components/NewFileDialog';
 import { Icon } from './components/Icon';
 import { Footer } from './components/Footer';
+import { AssistantView } from './components/assistant/AssistantView';
+import { AssistantProvider, useAssistant } from './assistant/state';
 
 function Shortcuts() {
   const { undo, redo, doc } = useEditor();
@@ -54,6 +56,9 @@ function Toaster() {
 function Shell() {
   useTheme();
   const { doc, load } = useShell();
+  const assistant = useAssistant();
+  const assistantOpenRef = useRef(assistant.open);
+  assistantOpenRef.current = assistant.open;
   const inputRef = useRef<HTMLInputElement>(null);
   const [showNew, setShowNew] = useState(false);
   const [dragging, setDragging] = useState(false);
@@ -121,6 +126,8 @@ function Shell() {
       e.preventDefault();
       dragDepth.current = 0;
       setDragging(false);
+      // Na tela do assistente, o próprio assistente trata o arquivo como anexo.
+      if (assistantOpenRef.current) return;
       const f = e.dataTransfer?.files[0];
       if (f) void importFile(f);
     };
@@ -141,7 +148,9 @@ function Shell() {
   return (
     <ActionsContext.Provider value={actions}>
       <div className="app">
-        {doc ? (
+        {assistant.open ? (
+          <AssistantView />
+        ) : doc ? (
           <>
             <TopBar />
             <Workspace />
@@ -150,7 +159,7 @@ function Shell() {
         ) : (
           <Welcome />
         )}
-        <Footer />
+        <Footer assistant={assistant.open} />
       </div>
       <input
         ref={inputRef}
@@ -165,7 +174,7 @@ function Shell() {
         }}
       />
       {showNew && <NewFileDialog onClose={() => setShowNew(false)} onCreate={actions.createNew} />}
-      {dragging && (
+      {dragging && !assistant.open && (
         <div className="drop-overlay">
           <div className="inner">
             <Icon name="upload" size={28} />
@@ -181,7 +190,9 @@ function Shell() {
 export default function App() {
   return (
     <EditorProvider>
-      <Shell />
+      <AssistantProvider>
+        <Shell />
+      </AssistantProvider>
     </EditorProvider>
   );
 }

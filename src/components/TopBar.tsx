@@ -8,6 +8,7 @@ import { useClickOutside, useTheme, toast } from '../state/ui';
 import { downloadDoc } from '../io';
 import { useActions } from './actions';
 import { Icon } from './Icon';
+import { useAssistant } from '../assistant/state';
 
 const KIND_TONE: Record<string, string> = {
   aquisicao: 'accent',
@@ -29,6 +30,7 @@ function useToggle() {
 export function TopBar() {
   const { doc, layout, classification, issues, canUndo, canRedo, undo, redo, edit, close, locate, titulos } = useEditor();
   const actions = useActions();
+  const assistant = useAssistant();
   const [theme, cycleTheme] = useTheme();
   const layoutMenu = useToggle();
   const opMenu = useToggle();
@@ -205,6 +207,10 @@ export function TopBar() {
         </button>
         <span className="topbar-sep hide-sm" />
 
+        <button type="button" className="btn btn-sm" onClick={() => assistant.setOpen(true)} title="Montar remessa a partir do estoque com IA">
+          <Icon name="sparkle" size={14} />
+          <span className="hide-sm">Assistente</span>
+        </button>
         <div className="popover-anchor" ref={newMenu.ref}>
           <button type="button" className="btn btn-sm" onClick={() => newMenu.setOpen(!newMenu.open)}>
             <Icon name="plus" size={14} />

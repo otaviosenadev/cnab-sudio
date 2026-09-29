@@ -1847,12 +1847,12 @@ input[type='time'].input::-webkit-calendar-picker-indicator {
 
 .tiles {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
+  grid-template-columns: 1.25fr 1fr 1fr;
   gap: 16px;
   margin-top: 40px;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 960px) {
   .tiles {
     grid-template-columns: 1fr;
   }
