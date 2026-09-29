@@ -13,8 +13,7 @@ import { Welcome } from './components/Welcome';
 import { NewFileDialog } from './components/NewFileDialog';
 import { Icon } from './components/Icon';
 import { Footer } from './components/Footer';
-import { AssistantView } from './components/assistant/AssistantView';
-import { AssistantProvider, useAssistant } from './assistant/state';
+import { EstoqueView, type EstoqueSession } from './components/estoque/EstoqueView';
 
 function Shortcuts() {
   const { undo, redo, doc } = useEditor();
@@ -56,9 +55,10 @@ function Toaster() {
 function Shell() {
   useTheme();
   const { doc, load } = useShell();
-  const assistant = useAssistant();
-  const assistantOpenRef = useRef(assistant.open);
-  assistantOpenRef.current = assistant.open;
+  const [estoqueOpen, setEstoqueOpen] = useState(false);
+  const [estoqueSession, setEstoqueSession] = useState<EstoqueSession | null>(null);
+  const estoqueOpenRef = useRef(estoqueOpen);
+  estoqueOpenRef.current = estoqueOpen;
   const inputRef = useRef<HTMLInputElement>(null);
   const [showNew, setShowNew] = useState(false);
   const [dragging, setDragging] = useState(false);
@@ -92,6 +92,7 @@ function Shell() {
         setShowNew(false);
       },
       openSample: (layoutId: LayoutId) => load(sampleDocument(getLayout(layoutId))),
+      openEstoque: () => setEstoqueOpen(true),
       switchLayout: (layoutId: LayoutId) => {
         if (!doc?.sourceText) return;
         const res = importText(doc.sourceText, doc.fileName, layoutId);
@@ -126,8 +127,8 @@ function Shell() {
       e.preventDefault();
       dragDepth.current = 0;
       setDragging(false);
-      // Na tela do assistente, o próprio assistente trata o arquivo como anexo.
-      if (assistantOpenRef.current) return;
+      // Na tela de estoque, a própria tela trata o arquivo.
+      if (estoqueOpenRef.current) return;
       const f = e.dataTransfer?.files[0];
       if (f) void importFile(f);
     };
@@ -148,8 +149,16 @@ function Shell() {
   return (
     <ActionsContext.Provider value={actions}>
       <div className="app">
-        {assistant.open ? (
-          <AssistantView />
+        {estoqueOpen ? (
+          <EstoqueView
+            session={estoqueSession}
+            onSession={setEstoqueSession}
+            onClose={() => setEstoqueOpen(false)}
+            onGenerate={(generated) => {
+              load(generated);
+              setEstoqueOpen(false);
+            }}
+          />
         ) : doc ? (
           <>
             <TopBar />
@@ -159,7 +168,7 @@ function Shell() {
         ) : (
           <Welcome />
         )}
-        <Footer assistant={assistant.open} />
+        <Footer />
       </div>
       <input
         ref={inputRef}
@@ -174,7 +183,7 @@ function Shell() {
         }}
       />
       {showNew && <NewFileDialog onClose={() => setShowNew(false)} onCreate={actions.createNew} />}
-      {dragging && !assistant.open && (
+      {dragging && !estoqueOpen && (
         <div className="drop-overlay">
           <div className="inner">
             <Icon name="upload" size={28} />
@@ -190,9 +199,7 @@ function Shell() {
 export default function App() {
   return (
     <EditorProvider>
-      <AssistantProvider>
-        <Shell />
-      </AssistantProvider>
+      <Shell />
     </EditorProvider>
   );
 }

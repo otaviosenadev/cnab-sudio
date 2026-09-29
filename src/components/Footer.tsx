@@ -8,14 +8,12 @@ function GithubMark() {
   );
 }
 
-export function Footer({ assistant = false }: { assistant?: boolean }) {
+export function Footer() {
   return (
     <footer className="footer">
       <span className="footer-note">
         <span className="footer-dot" />
-        {assistant
-          ? 'Os anexos do assistente são enviados ao servidor e à API da Anthropic para análise.'
-          : 'O editor roda no seu navegador — seus arquivos .rem não são enviados a servidores.'}
+        Tudo roda no seu navegador — nenhum arquivo é enviado a servidores.
       </span>
       <span className="footer-credit">
         Feito por <strong>Otávio Sena</strong>

@@ -17,7 +17,12 @@ export const FIDC_OCORRENCIAS: FieldOption[] = [
   { value: '74', label: 'Baixa por recompra (liquidação p/ cedente)', category: 'recompra' },
   { value: '81', label: 'Contrapartida da ocorrência 71', category: 'recompra' },
   { value: '84', label: 'Contrapartida da ocorrência 74', category: 'recompra' },
+  // Não consta na documentação v1.5, mas é o código usado pelo custodiante nas remessas de baixa por pagamento.
+  { value: '77', label: 'Baixa por pagamento (liquidação)', category: 'liquidacao' },
 ];
+
+/** Ocorrências oferecidas na tela de baixa pelo estoque, na ordem de uso. */
+export const FIDC_BAIXA_OCORRENCIAS = ['77', '14', '71', '73', '74'].map((v) => FIDC_OCORRENCIAS.find((o) => o.value === v)!);
 
 const ESPECIES = opts({
   '01': 'Duplicata',
@@ -245,7 +250,7 @@ export const fidc444: LayoutSpec = {
 
     for (const t of titulos) {
       const oc = rawOf(layout, t.primary, 'ocorrencia');
-      const liquidacao = ['14', '71', '73', '74'].includes(oc);
+      const liquidacao = ['14', '71', '73', '74', '77'].includes(oc);
       if (liquidacao && /^0*$/.test(rawOf(layout, t.primary, 'valorPago')))
         issues.push({ level: 'warning', message: 'Valor pago é obrigatório para ocorrências de liquidação.', uid: t.uid, field: 'valorPago' });
 

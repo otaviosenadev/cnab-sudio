@@ -8,6 +8,7 @@ export interface FileActions {
   openSample: (layoutId: LayoutId) => void;
   showNewDialog: () => void;
   switchLayout: (layoutId: LayoutId) => void;
+  openEstoque: () => void;
 }
 
 export const ActionsContext = createContext<FileActions | null>(null);
