@@ -12,6 +12,7 @@ import { Workspace } from './components/Workspace';
 import { Welcome } from './components/Welcome';
 import { NewFileDialog } from './components/NewFileDialog';
 import { Icon } from './components/Icon';
+import { Footer } from './components/Footer';
 
 function Shortcuts() {
   const { undo, redo, doc } = useEditor();
@@ -149,6 +150,7 @@ function Shell() {
         ) : (
           <Welcome />
         )}
+        <Footer />
       </div>
       <input
         ref={inputRef}
