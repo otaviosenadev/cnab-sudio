@@ -121,7 +121,7 @@ export const COLUMNS: { key: ColumnKey; label: string; synonyms: string[]; impor
   { key: 'especie', label: 'Tipo do título', synonyms: ['tipotitulo', 'tiporecebivel', 'especie', 'especietitulo'] },
   { key: 'coobrigacao', label: 'Coobrigação', synonyms: ['coobrigacao'] },
   { key: 'chaveNfe', label: 'Chave da NF-e', synonyms: ['chavenfe', 'nfe', 'chavenota', 'chaveacesso'] },
-  { key: 'nfNumero', label: 'Nº da nota fiscal', synonyms: ['nuduplicata', 'numeronf', 'notafiscal', 'numeronotafiscal'] },
+  { key: 'nfNumero', label: 'Nº da nota fiscal', synonyms: ['nu', 'numeronf', 'notafiscal', 'numeronotafiscal'] },
   { key: 'endereco', label: 'Endereço do sacado', synonyms: ['endereco', 'enderecosacado'] },
   { key: 'cep', label: 'CEP do sacado', synonyms: ['cep', 'cepsacado'] },
   { key: 'status', label: 'Situação', synonyms: ['situacaorecebivel', 'statusrecebivel', 'situacao', 'status'] },
@@ -192,6 +192,7 @@ const ESPECIE_MAP: [RegExp, string][] = [
   [/seguro/i, '03'],
   [/cheque/i, '51'],
   [/contrato|cedula|ccb/i, '60'],
+  [/nota_comercial/i, '24'],
 ];
 
 export function mapEspecie(v: string | undefined): string {
