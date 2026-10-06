@@ -30,6 +30,7 @@ const ESPECIES = opts({
   '03': 'Nota de seguro',
   '51': 'Cheque',
   '60': 'Contrato',
+  '24': 'Nota comercial',
 });
 
 const PESSOA = opts({ '01': 'Pessoa física', '02': 'Pessoa jurídica' });
